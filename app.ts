@@ -186,8 +186,22 @@ enum Color {
 // BigBird inherits the properties and methods of the Bird class
 class BigBird extends Bird {
   color: string;
+  // underscore is a naming convention for private properties
+  private _size: number = 10;
   constructor(name: string, age: number, isPet: boolean) {
     super(name, age, isPet);
+  }
+
+  // getter function
+  get size(): number {
+    return this._size;
+  }
+
+  // setter function
+  set size(value: number) {
+    if (value < 0) {
+      throw new Error("Size cannot be neggative.");
+    }
   }
 
   // wings is protected so it can be accessed by the BigBird subclass
@@ -201,3 +215,10 @@ let bigBird = new BigBird("Big Bird", 10, false);
 // bigBird.wings; // this wouldn't work
 
 bigBird.color = Color.Green;
+console.log("Bigbird color is: ", bigBird.color);
+
+// GET the private property size
+bigBird.size;
+
+// SET a new value of size
+bigBird.size = 12;
