@@ -175,9 +175,17 @@ bird.sound(); // Chirp! Chirp!
 // Access Modifiers - restrict access to the properties and methods of a class
 bird.walk(); // Bird is walking with 2 legs
 
+// enums - a way to define a set of named constants
+enum Color {
+  Red = "red",
+  Green = "green",
+  Blue = "blue",
+}
+
 // BigBird class is subclass of Bird class
 // BigBird inherits the properties and methods of the Bird class
 class BigBird extends Bird {
+  color: string;
   constructor(name: string, age: number, isPet: boolean) {
     super(name, age, isPet);
   }
@@ -191,3 +199,5 @@ class BigBird extends Bird {
 let bigBird = new BigBird("Big Bird", 10, false);
 // wings is protected so it cannot be accessed outside of the Bird class
 // bigBird.wings; // this wouldn't work
+
+bigBird.color = Color.Green;

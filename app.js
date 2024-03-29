@@ -143,6 +143,13 @@ var bird = new Bird("Tweety", 2, true);
 bird.sound(); // Chirp! Chirp!
 // Access Modifiers - restrict access to the properties and methods of a class
 bird.walk(); // Bird is walking with 2 legs
+// enums - a way to define a set of named constants
+var Color;
+(function (Color) {
+    Color["Red"] = "red";
+    Color["Green"] = "green";
+    Color["Blue"] = "blue";
+})(Color || (Color = {}));
 // BigBird class is subclass of Bird class
 // BigBird inherits the properties and methods of the Bird class
 var BigBird = /** @class */ (function (_super) {
@@ -159,3 +166,4 @@ var BigBird = /** @class */ (function (_super) {
 var bigBird = new BigBird("Big Bird", 10, false);
 // wings is protected so it cannot be accessed outside of the Bird class
 // bigBird.wings; // this wouldn't work
+bigBird.color = Color.Green;
