@@ -36,6 +36,8 @@
 let message = "Hello, TypeScript!!!";
 console.log(message);
 
+// Type assertion - telling the compiler the data type of the variable
+
 // What are Data Types in TypeScript?
 // Built-in Data Types
 // - String
@@ -51,6 +53,9 @@ function greet(): void {
   console.log("Hello, World!"); // logging the message to console is not the same as returning a value
   return; // we are not returning any real value here
 }
+// Arrow function with void return type
+const greetArrow = (): void => console.log("Hello, World!");
+
 // - Null (no value)
 let nullValue: null = null;
 // - Undefined (initialized without a value)
@@ -137,20 +142,29 @@ let dog = new Dog("Buddy", 5, true);
 dog.sound(); // Woof! Woof!
 
 class Bird implements Animal {
-  name: string;
+  // public : accessible within the class and outside ( default )
+  public name: string;
   age: number;
+  // protected : accessible within the class and its subclasses
+  protected wings: number = 2;
   isPet: boolean;
-  legs?: number; // ? makes the property optional
-  // legs is optional because birds have 2
-  constructor(name: string, age: number, isPet: boolean, legs: number = 2) {
+  // private : only accessible within the class
+  private legs: number = 2; // ? makes the property optional
+
+  // legs is optional because birds can have 2
+  constructor(name: string, age: number, isPet: boolean) {
     this.name = name;
     this.age = age;
     this.isPet = isPet;
-    this.legs = 2; // default value for legs
   }
 
-  sound() {
+  sound(): string {
     console.log("Chirp! Chirp!");
+    return "Chirp! Chirp!";
+  }
+
+  walk(): void {
+    console.log("Bird is walking with " + this.legs + " legs");
   }
 }
 
@@ -158,20 +172,22 @@ class Bird implements Animal {
 let bird = new Bird("Tweety", 2, true);
 bird.sound(); // Chirp! Chirp!
 
-// Inheritance - a class can inherit (extends) properties and methods from another class
-// Since we extend dog, we must call super in the constructor to pass the properties to the parent class
-class DogChild extends Dog implements Animal {
-  legs: number;
-  constructor(name: string, age: number, isPet: boolean, legs: number) {
-    super(name, age, isPet); // super references the Dog constructor function
-    this.legs = legs;
+// Access Modifiers - restrict access to the properties and methods of a class
+bird.walk(); // Bird is walking with 2 legs
+
+// BigBird class is subclass of Bird class
+// BigBird inherits the properties and methods of the Bird class
+class BigBird extends Bird {
+  constructor(name: string, age: number, isPet: boolean) {
+    super(name, age, isPet);
   }
-  // overriding the sound method
-  sound(): void {
-    console.log("DogChild: Woo! Woo!");
+
+  // wings is protected so it can be accessed by the BigBird subclass
+  fly(): void {
+    console.log("BigBird is flying with " + this.wings + " wings");
   }
 }
 
-let dogChild = new DogChild("Buddy Jr.", 1, true, 4);
-console.log(dogChild);
-dogChild.sound(); // Woof! Woof!
+let bigBird = new BigBird("Big Bird", 10, false);
+// wings is protected so it cannot be accessed outside of the Bird class
+// bigBird.wings; // this wouldn't work

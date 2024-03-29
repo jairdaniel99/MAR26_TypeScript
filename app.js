@@ -44,6 +44,7 @@ var __extends = (this && this.__extends) || (function () {
 // Declaring a variable in TypeScript using const, let, or var.
 var message = "Hello, TypeScript!!!";
 console.log(message);
+// Type assertion - telling the compiler the data type of the variable
 // What are Data Types in TypeScript?
 // Built-in Data Types
 // - String
@@ -58,6 +59,8 @@ function greet() {
     console.log("Hello, World!"); // logging the message to console is not the same as returning a value
     return; // we are not returning any real value here
 }
+// Arrow function with void return type
+var greetArrow = function () { return console.log("Hello, World!"); };
 // - Null (no value)
 var nullValue = null;
 // - Undefined (initialized without a value)
@@ -116,37 +119,43 @@ var Dog = /** @class */ (function () {
 var dog = new Dog("Buddy", 5, true);
 dog.sound(); // Woof! Woof!
 var Bird = /** @class */ (function () {
-    // legs is optional because birds have 2
-    function Bird(name, age, isPet, legs) {
-        if (legs === void 0) { legs = 2; }
+    // legs is optional because birds can have 2
+    function Bird(name, age, isPet) {
+        // protected : accessible within the class and its subclasses
+        this.wings = 2;
+        // private : only accessible within the class
+        this.legs = 2; // ? makes the property optional
         this.name = name;
         this.age = age;
         this.isPet = isPet;
-        this.legs = 2; // default value for legs
     }
     Bird.prototype.sound = function () {
         console.log("Chirp! Chirp!");
+        return "Chirp! Chirp!";
+    };
+    Bird.prototype.walk = function () {
+        console.log("Bird is walking with " + this.legs + " legs");
     };
     return Bird;
 }());
 // Creating an instance of the Bird class
 var bird = new Bird("Tweety", 2, true);
 bird.sound(); // Chirp! Chirp!
-// Inheritance - a class can inherit (extends) properties and methods from another class
-// Since we extend dog, we must call super in the constructor to pass the properties to the parent class
-var DogChild = /** @class */ (function (_super) {
-    __extends(DogChild, _super);
-    function DogChild(name, age, isPet, legs) {
-        var _this = _super.call(this, name, age, isPet) || this; // super references the Dog constructor function
-        _this.legs = legs;
-        return _this;
+// Access Modifiers - restrict access to the properties and methods of a class
+bird.walk(); // Bird is walking with 2 legs
+// BigBird class is subclass of Bird class
+// BigBird inherits the properties and methods of the Bird class
+var BigBird = /** @class */ (function (_super) {
+    __extends(BigBird, _super);
+    function BigBird(name, age, isPet) {
+        return _super.call(this, name, age, isPet) || this;
     }
-    // overriding the sound method
-    DogChild.prototype.sound = function () {
-        console.log("DogChild: Woo! Woo!");
+    // wings is protected so it can be accessed by the BigBird subclass
+    BigBird.prototype.fly = function () {
+        console.log("BigBird is flying with " + this.wings + " wings");
     };
-    return DogChild;
-}(Dog));
-var dogChild = new DogChild("Buddy Jr.", 1, true, 4);
-console.log(dogChild);
-dogChild.sound(); // Woof! Woof!
+    return BigBird;
+}(Bird));
+var bigBird = new BigBird("Big Bird", 10, false);
+// wings is protected so it cannot be accessed outside of the Bird class
+// bigBird.wings; // this wouldn't work
